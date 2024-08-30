@@ -1,7 +1,8 @@
 import React from "react";
 import { usePopularMoviesQuery } from "../../../../hooks/usePopularMovies";
-import MovieSlider from "../../../../common/Movieslider/MovieSlider";
+
 import { responsive } from "../../../../constants/responsive";
+import MovieSlider from "../../../../common/Movieslider/MovieSlider";
 
 const PopularMovieSlide = () => {
   const { data, isLoading, isError, error } = usePopularMoviesQuery();
