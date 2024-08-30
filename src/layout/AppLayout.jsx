@@ -4,13 +4,13 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { Outlet, useNavigate } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { TextField, useMediaQuery } from "@mui/material";
 
 function AppLayout() {
   const nav = useNavigate();
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   return (
     <>
@@ -50,9 +50,12 @@ function AppLayout() {
                   borderRadius: "4px",
                 }}
               />
-              <Button variant="outlined" startIcon={<SearchIcon />}>
-                Search
-              </Button>
+
+              {!isMobile && (
+                <Button variant="outlined" startIcon={<SearchIcon />}>
+                  Search
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </Container>

@@ -1,8 +1,20 @@
-import { Badge, Box, Grid } from "@mui/material";
+import { Badge, Box, Grid, Typography } from "@mui/material";
 import React from "react";
-import genreMap from "../../genres.json";
 import "./MovieCard.style.css";
+import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
+
 const MovieCard = ({ movie }) => {
+  const { data: genreData } = useMovieGenreQuery();
+  console.log(genreData);
+
+  const showGenre = (genreIdList) => {
+    if (!genreData) return [];
+    const genreNameList = genreIdList.map((id) => {
+      const genreObj = genreData.find((genre) => genre.id === id);
+      return genreObj.name;
+    });
+    return genreNameList;
+  };
   return (
     <div
       className="movie-card"
@@ -15,23 +27,26 @@ const MovieCard = ({ movie }) => {
     >
       <Box alignItems="center" gap={2} className="overlay">
         <h1>{movie.title}</h1>
-        <Grid
-          container
-          spacing={1}
-          flexDirection="column"
-          justifyContent="space-around"
-        >
-          {movie.genre_ids.map((id, index) => (
-            <Grid item key={index}>
-              <Badge sx={{ pl: 4 }} badgeContent={genreMap[id]} color="error" />
+        <Grid container spacing={1} flexDirection="column">
+          {showGenre(movie.genre_ids).map((id, index) => (
+            <Grid item key={index} sx={{ ml: 1 }}>
+              <Box sx={{ display: "flex" }}>
+                <Typography
+                  sx={{ borderRadius: "4px", background: "red", p: 0.5 }}
+                  variant="caption"
+                >
+                  {id}
+                </Typography>
+              </Box>
             </Grid>
           ))}
+          <Grid item sx={{ ml: 1 }}>
+            <div>{movie.vote_average}</div>
+            <div>{movie.popularity}</div>
+            <div>{movie.adult ? "청불" : ""}</div>
+          </Grid>
         </Grid>
-        <div>{movie.vote_average}</div>
-        <div>{movie.popularity}</div>
-        <div>{movie.adult ? "청불" : ""}</div>
       </Box>
-      <div></div>
     </div>
   );
 };
