@@ -1,7 +1,7 @@
 import React from "react";
 import { usePopularMoviesQuery } from "../../../../hooks/usePopularMovies";
 import "./Banner.style.css";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 const Banner = () => {
   const { data, isError, isLoading, error } = usePopularMoviesQuery();
@@ -21,22 +21,30 @@ const Banner = () => {
           ")",
       }}
     >
-      <Box
-        width="36%"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        height="100%"
-        p="20px"
-        zIndex="2"
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="flex-start"
+        sx={{ padding: { xs: "10px", sm: "20px" } }}
       >
-        <Typography variant="h4" component="h1" sx={{ color: "white" }}>
-          {data?.results[0].title}
-        </Typography>
-        <Typography variant="body1" component="p" sx={{ color: "white" }}>
-          {data?.results[0].overview}
-        </Typography>
-      </Box>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={6}
+          sx={{
+            textAlign: { xs: "center", sm: "left" },
+            padding: { xs: "10px", sm: "20px" },
+          }}
+        >
+          <Typography variant="h4" component="h1" sx={{ color: "white" }}>
+            {data?.results[0].title}
+          </Typography>
+          <Typography variant="body1" component="p" sx={{ color: "white" }}>
+            {data?.results[0].overview}
+          </Typography>
+        </Grid>
+      </Grid>
     </div>
   );
 };

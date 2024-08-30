@@ -1,7 +1,6 @@
 .banner {
   display: flex;
   height: 56vh;
-  background-position: left;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -13,4 +12,7 @@
   left: 0;
   height: 56vh;
   width: 100%;
+}
+.banner > * {
+  z-index: 2;
 }

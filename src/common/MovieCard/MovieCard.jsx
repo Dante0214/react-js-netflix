@@ -1,7 +1,6 @@
 import { Badge, Box, Grid } from "@mui/material";
 import React from "react";
-
-import genreMap from "../../../../genres.json";
+import genreMap from "../../genres.json";
 import "./MovieCard.style.css";
 const MovieCard = ({ movie }) => {
   return (

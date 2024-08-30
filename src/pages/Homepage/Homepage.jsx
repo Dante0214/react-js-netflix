@@ -1,6 +1,8 @@
 import React from "react";
 import Banner from "./components/Banner/Banner";
-import MovieSlide from "./components/MovieSlide/MovieSlide";
+import PopularMovieSlide from "./components/PopularMovieSlide/PopularMovieSlide";
+import TopRateMovieSlide from "./components/TopRateMovieSlide/TopRateMovieSlide";
+import UpcomingMovieSlide from "./components/UpcomingMovieSlide/UpcomingMovieSlide";
 //베너 =>유명영화 1위
 //유명영화
 //평점영화
@@ -9,9 +11,9 @@ const Homepage = () => {
   return (
     <div>
       <Banner />
-      <MovieSlide option="popular" />
-      <MovieSlide option="toprate" />
-      <MovieSlide option="upcoming" />
+      <PopularMovieSlide />
+      <TopRateMovieSlide />
+      <UpcomingMovieSlide />
     </div>
   );
 };
