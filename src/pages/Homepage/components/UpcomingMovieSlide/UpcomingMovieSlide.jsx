@@ -1,5 +1,5 @@
 import React from "react";
-import MovieSlider from "../../../../common/Movieslider/MovieSlider";
+import MovieSlider from "../../../../common/MovieSlider/MovieSlider";
 import { useUpcomingMoviesQuery } from "../../../../hooks/useUpcomingMovies";
 import { responsive } from "../../../../constants/responsive";
 
