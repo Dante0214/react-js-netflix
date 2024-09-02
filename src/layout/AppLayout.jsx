@@ -19,11 +19,17 @@ import {
 } from "@mui/material";
 
 function AppLayout() {
+  const [keyword, setKeyword] = useState("");
   const nav = useNavigate();
   const isMobile = useMediaQuery("(max-width:600px)");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
+  };
+  const searchByKeyword = (e) => {
+    e.preventDefault();
+    nav(`movies?q=${keyword}`);
+    setKeyword("");
   };
 
   return (
@@ -38,7 +44,7 @@ function AppLayout() {
               style={{ marginRight: "auto", height: "50px", cursor: "pointer" }}
             />
             <Box
-              sx={{ ml: 4, flexGrow: 1, display: { xs: "none", md: "flex" } }}
+              sx={{ ml: 4, flexGrow: 1, display: isMobile ? "none" : "flex" }}
             >
               <Button
                 onClick={() => nav("/")}
@@ -59,23 +65,37 @@ function AppLayout() {
                 flexGrow: 0,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "flex-end",
               }}
             >
-              <TextField
-                placeholder="Search"
-                size="small"
-                sx={{
-                  width: "50%",
-                  mr: 1,
-                  background: "gray",
-                  borderRadius: "4px",
+              <form
+                onSubmit={searchByKeyword}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                  justifyContent: "flex-end",
                 }}
-              />
+              >
+                <TextField
+                  onSubmit={searchByKeyword}
+                  value={keyword}
+                  placeholder="검색"
+                  size="small"
+                  sx={{
+                    width: "50%",
+                    mr: 1,
+                    background: "gray",
+                    borderRadius: "4px",
+                  }}
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <SearchIcon />
-              </Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton type="submit" color="inherit" edge="end">
+                    <SearchIcon />
+                  </IconButton>
+                </Box>
+              </form>
 
               {isMobile && (
                 <IconButton
@@ -95,7 +115,12 @@ function AppLayout() {
         anchor="right"
         open={drawerOpen}
         onClose={handleDrawerToggle}
-        sx={{ display: { xs: "block", md: "none" } }}
+        sx={{
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            width: "40vw",
+          },
+        }}
       >
         <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
           <List>
