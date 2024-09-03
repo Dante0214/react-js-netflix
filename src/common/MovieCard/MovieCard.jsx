@@ -1,10 +1,16 @@
-import { Badge, Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import "./MovieCard.style.css";
 import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
+import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ movie }) => {
+  const nav = useNavigate();
   const { data: genreData } = useMovieGenreQuery();
+
+  const handleCardClick = () => {
+    nav(`/movies/${movie.id}`);
+  };
 
   const showGenre = (genreIdList) => {
     if (!genreData) return [];
@@ -17,6 +23,7 @@ const MovieCard = ({ movie }) => {
   return (
     <div
       className="movie-card"
+      onClick={handleCardClick}
       style={{
         backgroundImage:
           "url(" +

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./MoviePage.style.css";
 import { useSearchMovieQuery } from "../../hooks/useSearchMovie";
 import { useSearchParams } from "react-router-dom";
@@ -25,11 +25,9 @@ const MoviePage = () => {
   };
   const handleChange = (e) => {
     setSelectedGenre(e.target.value);
-    setPage(1);
   };
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
-    setPage(1);
   };
   const handleResetFilter = () => {
     setSelectedGenre("");
