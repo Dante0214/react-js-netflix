@@ -6,7 +6,7 @@ const fetchMoiveDetail = (movie_id) => {
 };
 export const useMoiveDetailQuery = (movie_id) => {
   return useQuery({
-    queryKey: ["movie-genre", movie_id],
+    queryKey: ["movie-detail", movie_id],
     queryFn: () => fetchMoiveDetail(movie_id),
     select: (result) => result.data,
   });

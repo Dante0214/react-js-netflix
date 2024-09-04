@@ -10,6 +10,7 @@ import {
   MenuItem,
   Pagination,
   Select,
+  Typography,
 } from "@mui/material";
 import MovieCard from "../../common/MovieCard/MovieCard";
 import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
@@ -154,11 +155,24 @@ const MoviePage = () => {
         </Grid>
         <Grid item md={8} xs={12}>
           <Grid container spacing={2}>
-            {filteredMovies?.map((movie, idx) => (
-              <Grid item key={idx}>
-                <MovieCard movie={movie} />
+            {filteredMovies && filteredMovies.length > 0 ? (
+              filteredMovies.map((movie, idx) => (
+                <Grid item key={idx} xs={12} sm={6} md={4}>
+                  <MovieCard movie={movie} />
+                </Grid>
+              ))
+            ) : (
+              <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                xs={12}
+              >
+                <Grid item>
+                  <Typography variant="h4">검색 결과가 없습니다.</Typography>
+                </Grid>
               </Grid>
-            ))}
+            )}
           </Grid>
           <Pagination
             size="large"

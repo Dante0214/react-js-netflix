@@ -20,8 +20,9 @@ const MovieCard = ({ movie }) => {
     });
     return genreNameList;
   };
+
   return (
-    <div
+    <Box
       className="movie-card"
       onClick={handleCardClick}
       style={{
@@ -53,7 +54,7 @@ const MovieCard = ({ movie }) => {
           </Grid>
         </Grid>
       </Box>
-    </div>
+    </Box>
   );
 };
 

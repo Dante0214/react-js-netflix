@@ -1,7 +1,7 @@
 import React from "react";
 import { usePopularMoviesQuery } from "../../../../hooks/usePopularMovies";
 import "./Banner.style.css";
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const Banner = () => {
   const { data, isError, isLoading, error } = usePopularMoviesQuery();
