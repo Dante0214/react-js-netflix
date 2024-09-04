@@ -10,7 +10,6 @@ import {
   Container,
   Divider,
   Grid,
-  Modal,
   Typography,
 } from "@mui/material";
 import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
