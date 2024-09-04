@@ -25,7 +25,7 @@ const MovieTrailer = ({ open, onClose, id }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  console.log(trailers);
+
   const opts = {
     height: "315",
     width: "560",

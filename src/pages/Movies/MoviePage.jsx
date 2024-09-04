@@ -43,7 +43,7 @@ const MoviePage = () => {
     page,
     selectedGenre,
   });
-  console.log(data);
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -69,7 +69,7 @@ const MoviePage = () => {
           return 0;
       }
     });
-  console.log(data);
+
   return (
     <Container>
       <Grid container spacing={2}>
