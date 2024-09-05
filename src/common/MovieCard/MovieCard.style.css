@@ -1,9 +1,12 @@
 .movie-card {
+  display: flex;
   width: 220px;
   height: 330px;
   background-size: cover;
   cursor: pointer;
   translate: 0.5s;
+  justify-content: center;
+  align-items: center;
 }
 .overlay {
   width: 100%;
