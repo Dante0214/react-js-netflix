@@ -153,9 +153,8 @@ const MoviePage = () => {
                   <MenuItem value="">정렬 선택</MenuItem>
                   <MenuItem value="release_date_desc">최신순</MenuItem>
                   <MenuItem value="release_date_asc">오래된 순</MenuItem>
-                  <MenuItem value="popularity_desc">인기도 내림차순</MenuItem>
-
-                  <MenuItem value="popularity_asc">인기도 오름차순</MenuItem>
+                  <MenuItem value="popularity_desc">인기도 ↑</MenuItem>
+                  <MenuItem value="popularity_asc">인기도 ↓</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
