@@ -1,13 +1,11 @@
 import React from "react";
 import { usePopularMoviesQuery } from "../../../../hooks/usePopularMovies";
 import "./Banner.style.css";
-import { Alert, CircularProgress, Grid, Typography } from "@mui/material";
+import { Alert, Skeleton, Grid, Typography } from "@mui/material";
 
 const Banner = () => {
   const { data, isError, isLoading, error } = usePopularMoviesQuery();
-  if (isLoading) {
-    return <CircularProgress size={200} />;
-  }
+
   if (isError) {
     return (
       <Alert severity="error">
@@ -16,14 +14,15 @@ const Banner = () => {
       </Alert>
     );
   }
+
   return (
     <div
       className="banner"
       style={{
-        backgroundImage:
-          "url(" +
-          `https://themoviedb.org/t/p/w1066_and_h600_bestv2${data.results[0].poster_path}` +
-          ")",
+        backgroundImage: isLoading
+          ? undefined
+          : `url(https://themoviedb.org/t/p/w1066_and_h600_bestv2${data.results[0].poster_path})`,
+        backgroundColor: isLoading ? "#e0e0e0" : undefined,
       }}
     >
       <Grid
@@ -42,12 +41,21 @@ const Banner = () => {
             padding: { xs: "10px", sm: "20px" },
           }}
         >
-          <Typography variant="h4" component="h1" sx={{ color: "white" }}>
-            {data?.results[0].title}
-          </Typography>
-          <Typography variant="body1" component="p" sx={{ color: "white" }}>
-            {data?.results[0].overview}
-          </Typography>
+          {isLoading ? (
+            <>
+              <Skeleton variant="text" width={300} height={50} />
+              <Skeleton variant="rectangular" width="100%" height={150} />
+            </>
+          ) : (
+            <>
+              <Typography variant="h4" component="h1" sx={{ color: "white" }}>
+                {data?.results[0].title}
+              </Typography>
+              <Typography variant="body1" component="p" sx={{ color: "white" }}>
+                {data?.results[0].overview}
+              </Typography>
+            </>
+          )}
         </Grid>
       </Grid>
     </div>

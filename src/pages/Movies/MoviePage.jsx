@@ -11,6 +11,7 @@ import {
   MenuItem,
   Pagination,
   Select,
+  Skeleton,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -80,6 +81,24 @@ const MoviePage = () => {
       }
     });
 
+  const styles = {
+    color: "black",
+    backgroundColor: "white",
+    "& .MuiSelect-icon": {
+      color: "black",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white",
+    },
+    "& .MuiMenuItem-root": {
+      color: "white",
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+      "&:hover": {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+      },
+    },
+  };
+
   return (
     <Container>
       <Grid container spacing={2}>
@@ -106,23 +125,7 @@ const MoviePage = () => {
                   value={selectedGenre}
                   onChange={handleChange}
                   label="Genre"
-                  sx={{
-                    color: "black",
-                    backgroundColor: "white",
-                    "& .MuiSelect-icon": {
-                      color: "black",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "white",
-                    },
-                    "& .MuiMenuItem-root": {
-                      color: "white",
-                      backgroundColor: "rgba(0, 0, 0, 0.7)",
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 255, 255, 0.2)",
-                      },
-                    },
-                  }}
+                  sx={styles}
                 >
                   <MenuItem value="">장르 선택</MenuItem>
                   {genres?.map((genre) => (
@@ -138,23 +141,7 @@ const MoviePage = () => {
                   value={sortOption}
                   onChange={handleSortChange}
                   label="Sort By"
-                  sx={{
-                    color: "black",
-                    backgroundColor: "white",
-                    "& .MuiSelect-icon": {
-                      color: "black",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "white",
-                    },
-                    "& .MuiMenuItem-root": {
-                      color: "white",
-                      backgroundColor: "rgba(0, 0, 0, 0.7)",
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 255, 255, 0.2)",
-                      },
-                    },
-                  }}
+                  sx={styles}
                 >
                   <MenuItem value="">정렬 선택</MenuItem>
                   <MenuItem value="release_date_desc">최신순</MenuItem>
@@ -173,7 +160,18 @@ const MoviePage = () => {
             justifyContent="center"
             alignItems="center"
           >
-            {filteredMovies && filteredMovies.length > 0 ? (
+            {isLoading ? (
+              Array.from(new Array(10)).map((_, idx) => (
+                <Grid item key={idx} sm={6} md={4}>
+                  <Skeleton
+                    variant="rectangular"
+                    width="100%"
+                    height={350}
+                    sx={{ bgcolor: "grey.900" }}
+                  />
+                </Grid>
+              ))
+            ) : filteredMovies && filteredMovies.length > 0 ? (
               filteredMovies.map((movie, idx) => (
                 <Grid item key={idx} sm={6} md={4}>
                   <MovieCard movie={movie} />
