@@ -1,6 +1,7 @@
 import React from "react";
 import { useMovieTrailersQuery } from "../../../hooks/useMovieTrailers";
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -10,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import YouTube from "react-youtube";
+import Loading from "../../../common/Loading";
 
 const MovieTrailer = ({ open, onClose, id }) => {
   const {
@@ -19,11 +21,16 @@ const MovieTrailer = ({ open, onClose, id }) => {
     isLoading,
   } = useMovieTrailersQuery(id);
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loading num={5} />;
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return (
+      <Alert severity="error">
+        <Typography variant="h6">Error:</Typography>
+        <Typography variant="body2">{error.message}</Typography>
+      </Alert>
+    );
   }
 
   const opts = {

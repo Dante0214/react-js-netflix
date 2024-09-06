@@ -2,16 +2,23 @@ import React from "react";
 import MovieSlider from "../../../../common/MovieSlider/MovieSlider";
 import { useTopRateMoviesQuery } from "../../../../hooks/useTopRateMovies";
 import { responsive } from "../../../../constants/responsive";
+import Loading from "../../../../common/Loading";
+import { Alert, Typography } from "@mui/material";
 
 const TopRateMovieSlide = () => {
   const { data, isLoading, isError, error } = useTopRateMoviesQuery();
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loading num={5} />;
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return (
+      <Alert severity="error">
+        <Typography variant="h6">Error:</Typography>
+        <Typography variant="body2">{error.message}</Typography>
+      </Alert>
+    );
   }
 
   return (

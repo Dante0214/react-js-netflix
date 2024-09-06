@@ -3,7 +3,7 @@ import "./MoviePage.style.css";
 import { useSearchMovieQuery } from "../../hooks/useSearchMovie";
 import { useSearchParams } from "react-router-dom";
 import {
-  Box,
+  Alert,
   Button,
   Container,
   FormControl,
@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import MovieCard from "../../common/MovieCard/MovieCard";
 import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
+import Loading from "../../common/Loading";
 
 const MoviePage = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -49,11 +50,16 @@ const MoviePage = () => {
   });
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loading num={10} />;
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return (
+      <Alert severity="error">
+        <Typography variant="h6">Error:</Typography>
+        <Typography variant="body2">{error.message}</Typography>
+      </Alert>
+    );
   }
   const filteredMovies = data?.results
     .filter((movie) =>

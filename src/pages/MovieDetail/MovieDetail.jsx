@@ -3,6 +3,7 @@ import "./MovieDetail.style.css";
 import { useParams } from "react-router-dom";
 import { useMoiveDetailQuery } from "../../hooks/useMoiveDetail";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -16,6 +17,7 @@ import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
 import { useMovieReviewsQuery } from "../../hooks/useMovieReviews";
 import RecommendMovies from "./components/RecommendMovies";
 import MovieTrailer from "./components/MovieTrailer";
+import Loading from "../../common/Loading";
 
 const MovieDetail = () => {
   const [open, setOpen] = useState(false);
@@ -45,11 +47,16 @@ const MovieDetail = () => {
   };
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loading num={1} />;
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return (
+      <Alert severity="error">
+        <Typography variant="h6">Error:</Typography>
+        <Typography variant="body2">{error.message}</Typography>
+      </Alert>
+    );
   }
   return (
     <Container>

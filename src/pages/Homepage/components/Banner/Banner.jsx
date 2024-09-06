@@ -1,15 +1,20 @@
 import React from "react";
 import { usePopularMoviesQuery } from "../../../../hooks/usePopularMovies";
 import "./Banner.style.css";
-import { Grid, Typography } from "@mui/material";
+import { Alert, CircularProgress, Grid, Typography } from "@mui/material";
 
 const Banner = () => {
   const { data, isError, isLoading, error } = usePopularMoviesQuery();
   if (isLoading) {
-    return <h1>loading</h1>;
+    return <CircularProgress size={200} />;
   }
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return (
+      <Alert severity="error">
+        <Typography variant="h6">Error:</Typography>
+        <Typography variant="body2">{error.message}</Typography>
+      </Alert>
+    );
   }
   return (
     <div
