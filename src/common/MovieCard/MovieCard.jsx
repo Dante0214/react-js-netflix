@@ -3,6 +3,8 @@ import React from "react";
 import "./MovieCard.style.css";
 import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
 import { useNavigate } from "react-router-dom";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 const MovieCard = ({ movie }) => {
   const nav = useNavigate();
@@ -48,8 +50,15 @@ const MovieCard = ({ movie }) => {
             </Grid>
           ))}
           <Grid item sx={{ ml: 1 }}>
-            <div>{movie.vote_average}</div>
-            <div>{movie.popularity}</div>
+            <Typography display="flex" alignItems="center" variant="body1">
+              <StarRateIcon style={{ marginRight: 8 }} />
+              {movie.vote_average}
+            </Typography>
+
+            <Typography display="flex" alignItems="center" variant="body1">
+              <ThumbUpOffAltIcon style={{ marginRight: 8 }} />
+              {Math.ceil(movie.popularity)}
+            </Typography>
             <div>{movie.adult ? "청불" : ""}</div>
           </Grid>
         </Grid>
