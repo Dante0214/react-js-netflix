@@ -18,8 +18,9 @@ import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
 import { useMovieReviewsQuery } from "../../hooks/useMovieReviews";
 import RecommendMovies from "./components/RecommendMovies";
 import MovieTrailer from "./components/MovieTrailer";
-import Loading from "../../common/Loading";
-
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 const MovieDetail = () => {
   const [open, setOpen] = useState(false);
 
@@ -140,16 +141,32 @@ const MovieDetail = () => {
             />
           ) : (
             <>
-              <Typography variant="body1" mt={2}>
+              <Typography
+                variant="body1"
+                mt={2}
+                display="flex"
+                alignItems="center"
+              >
                 {data.overview}
               </Typography>
-              <Typography variant="body1" mt={2}>
-                예산: ${data.budget.toLocaleString()}
+              <Typography
+                variant="body1"
+                mt={2}
+                display="flex"
+                alignItems="center"
+              >
+                <AttachMoneyIcon style={{ marginRight: 8 }} />
+                {data.budget.toLocaleString()}
               </Typography>
-              <Typography variant="body1">
-                개봉일: {new Date(data.release_date).toLocaleDateString()}
+              <Typography variant="body1" display="flex" alignItems="center">
+                <CalendarMonthIcon style={{ marginRight: 8 }} />
+
+                {new Date(data.release_date).toLocaleDateString()}
               </Typography>
-              <Typography variant="body1">인기도: {data.popularity}</Typography>
+              <Typography display="flex" alignItems="center" variant="body1">
+                <ThumbUpOffAltIcon style={{ marginRight: 8 }} />
+                {Math.ceil(data.popularity)}
+              </Typography>
             </>
           )}
 
