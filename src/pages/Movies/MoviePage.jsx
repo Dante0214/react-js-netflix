@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MoviePage.style.css";
 import { useSearchMovieQuery } from "../../hooks/useSearchMovie";
 import { useSearchParams } from "react-router-dom";
@@ -23,32 +23,69 @@ const MoviePage = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
 
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [sortedMovies, setSortedMovies] = useState([]);
   const [sortOption, setSortOption] = useState("");
   const [query, setQuery] = useSearchParams();
   const keyword = query.get("q");
   const [page, setPage] = useState(1);
+
+  const { data, isLoading, isError, error } = useSearchMovieQuery({
+    keyword,
+    page,
+  });
+  const { data: genres } = useMovieGenreQuery();
+
   const handlePageClick = (e, value) => {
     setPage(value);
   };
   const handleChange = (e) => {
     setSelectedGenre(e.target.value);
   };
-  const handleSortChange = (e) => {
-    setSortOption(e.target.value);
-  };
+
+  // 원본데이터를 장르별 필터링 하여 별도의 데이터로 사용
+  useEffect(() => {
+    if (data) {
+      let movies = [...data.results];
+      if (selectedGenre) {
+        movies = movies.filter((movie) =>
+          movie.genre_ids.includes(Number(selectedGenre))
+        );
+      }
+      setFilteredMovies(movies);
+    }
+  }, [data, selectedGenre]);
+
+  //FilteredMovies를 옵션별로 정렬, 장르로 필터링된 데이터가 없을땐
+  //SortedMovies를 빈 배열로 반환
+  useEffect(() => {
+    if (filteredMovies.length > 0) {
+      const sorted = [...filteredMovies].sort((a, b) => {
+        switch (sortOption) {
+          case "popularity_asc":
+            return a.popularity - b.popularity;
+          case "popularity_desc":
+            return b.popularity - a.popularity;
+          case "release_date_asc":
+            return new Date(a.release_date) - new Date(b.release_date);
+          case "release_date_desc":
+            return new Date(b.release_date) - new Date(a.release_date);
+          default:
+            return 0;
+        }
+      });
+      setSortedMovies(sorted);
+    } else {
+      setSortedMovies([]);
+    }
+  }, [filteredMovies, sortOption]);
+
   const handleResetFilter = () => {
     setSelectedGenre("");
     setSortOption("");
+    setQuery({ q: "" });
     setPage(1);
   };
-
-  const { data: genres } = useMovieGenreQuery();
-
-  const { data, isLoading, isError, error } = useSearchMovieQuery({
-    keyword,
-    page,
-    selectedGenre,
-  });
 
   if (isLoading) {
     return <Loading num={10} />;
@@ -62,42 +99,6 @@ const MoviePage = () => {
       </Alert>
     );
   }
-  const filteredMovies = data?.results
-    .filter((movie) =>
-      selectedGenre ? movie.genre_ids.includes(Number(selectedGenre)) : true
-    )
-    .sort((a, b) => {
-      switch (sortOption) {
-        case "popularity_asc":
-          return a.popularity - b.popularity;
-        case "popularity_desc":
-          return b.popularity - a.popularity;
-        case "release_date_asc":
-          return new Date(a.release_date) - new Date(b.release_date);
-        case "release_date_desc":
-          return new Date(b.release_date) - new Date(a.release_date);
-        default:
-          return 0;
-      }
-    });
-
-  const styles = {
-    color: "black",
-    backgroundColor: "white",
-    "& .MuiSelect-icon": {
-      color: "black",
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "white",
-    },
-    "& .MuiMenuItem-root": {
-      color: "white",
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-      "&:hover": {
-        backgroundColor: "rgba(255, 255, 255, 0.2)",
-      },
-    },
-  };
 
   return (
     <Container>
@@ -139,12 +140,12 @@ const MoviePage = () => {
                 <Select
                   displayEmpty
                   value={sortOption}
-                  onChange={handleSortChange}
+                  onChange={(e) => setSortOption(e.target.value)}
                   label="Sort By"
                   sx={styles}
                 >
                   <MenuItem value="">정렬 선택</MenuItem>
-                  <MenuItem value="release_date_desc">최신순</MenuItem>
+                  <MenuItem value="release_date_desc">최신 순</MenuItem>
                   <MenuItem value="release_date_asc">오래된 순</MenuItem>
                   <MenuItem value="popularity_desc">인기도 ↑</MenuItem>
                   <MenuItem value="popularity_asc">인기도 ↓</MenuItem>
@@ -171,16 +172,21 @@ const MoviePage = () => {
                   />
                 </Grid>
               ))
-            ) : filteredMovies && filteredMovies.length > 0 ? (
-              filteredMovies.map((movie, idx) => (
+            ) : filteredMovies.length === 0 ? (
+              <Grid item>
+                <Typography variant="h4">
+                  {selectedGenre
+                    ? "장르에 맞는 영화가 없습니다."
+                    : "검색 결과가 없습니다."}
+                </Typography>
+              </Grid>
+            ) : (
+              sortedMovies.length > 0 &&
+              sortedMovies.map((movie, idx) => (
                 <Grid item key={idx} sm={6} md={4}>
                   <MovieCard movie={movie} />
                 </Grid>
               ))
-            ) : (
-              <Grid item>
-                <Typography variant="h4">검색 결과가 없습니다.</Typography>
-              </Grid>
             )}
           </Grid>
           <Pagination
@@ -207,3 +213,21 @@ const MoviePage = () => {
 };
 
 export default MoviePage;
+
+const styles = {
+  color: "black",
+  backgroundColor: "white",
+  "& .MuiSelect-icon": {
+    color: "black",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderColor: "white",
+  },
+  "& .MuiMenuItem-root": {
+    color: "white",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.2)",
+    },
+  },
+};
