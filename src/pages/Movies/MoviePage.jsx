@@ -174,11 +174,7 @@ const MoviePage = () => {
               ))
             ) : filteredMovies.length === 0 ? (
               <Grid item>
-                <Typography variant="h4">
-                  {selectedGenre
-                    ? "장르에 맞는 영화가 없습니다."
-                    : "검색 결과가 없습니다."}
-                </Typography>
+                <Typography variant="h4">결과가 없습니다.</Typography>
               </Grid>
             ) : (
               sortedMovies.length > 0 &&
